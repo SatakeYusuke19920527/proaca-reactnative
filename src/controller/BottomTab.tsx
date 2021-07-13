@@ -28,7 +28,7 @@ const BottomTab = () => {
         name="Forth"
         component={FourthScreen}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'User',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="user-circle-o" size={size} color={color} />
           ),

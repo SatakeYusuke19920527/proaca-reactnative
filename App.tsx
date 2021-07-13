@@ -14,38 +14,30 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MainScreen from './src/screens/MainScreen';
 import SubScreen from './src/screens/SubScreen';
 import BottomTab from './src/controller/BottomTab';
+import { UserContext } from './src/contexts/userContexts';
 
 const Stack = createStackNavigator();
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { UserType } from './src/types/UserType';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [userInfo, setUserInfo] = useState<null | undefined | UserType>();
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Main"
-          component={MainScreen}
-          options={{ title: 'My first Page' }}
-        />
-        <Stack.Screen name="Sub" component={SubScreen} />
-        <Stack.Screen name="Third" component={BottomTab} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UserContext.Provider value={{ userInfo, setUserInfo }}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Main"
+            component={MainScreen}
+            options={{ title: 'My first Page', headerShown: false }}
+          />
+          <Stack.Screen name="Sub" component={SubScreen} />
+          <Stack.Screen name="Third" component={BottomTab} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tinyLogo: {
-    width: 367,
-    height: 267,
-  },
-});

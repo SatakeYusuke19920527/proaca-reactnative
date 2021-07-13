@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { auth } from '../lib/firebase';
 
 const MainScreen = ({ navigation }: { navigation: any }) => {
+  const [uid, setUid] = useState<string>('');
+
+  console.log(uid);
+  const _signIn = async () => {
+    await auth
+      .signInAnonymously()
+      .then((user) => {
+        setUid(user.user!.uid);
+      })
+      .catch((error) => {
+        var errorMessage = error.message;
+        console.log(errorMessage);
+      });
+    if (uid !== '') {
+      navigation.navigate('Sub', {
+        param: { uid },
+      });
+    }
+  };
   return (
     <View style={styles.container}>
       <Text>MainScreen</Text>
-      <Button
-        title="Go to Sub"
-        onPress={() =>
-          navigation.navigate('Sub', {
-            itemId: 12345,
-            param: { uid: 'saeidfk12', name: 'satake' },
-          })
-        }
-      />
+      <Button title="SignIn" onPress={_signIn} />
     </View>
   );
 };
