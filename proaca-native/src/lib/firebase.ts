@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import 'firebase/functions';
 import Constants from 'expo-constants';
 
 if (!firebase.apps.length) {
@@ -11,6 +12,7 @@ if (!firebase.apps.length) {
 export const db = firebase.firestore()
 export const auth = firebase.auth()
 export const storage = firebase.storage()
+export const functions = firebase.functions();
 
 export const saveUserInfo = async (uid: string, uname: string, age: number) => {
   const data = {
@@ -50,6 +52,19 @@ export const sendMessage = async (uid: string,uname:string, message: string) => 
   }
   await db.collection("messages").add(data).then(res => {
     console.log('send message!!')
+  }).catch(err => {
+    console.log(err)
+  })
+}
+
+export const functionOnCall = async () => {
+  // var addMessage = firebase.functions().httpsCallable('addMessage');
+  const addMessage = await functions.httpsCallable('addMessage');
+  addMessage({ text: "messageText satake test" })
+  .then((result) => {
+    // Read result of the Cloud Function.
+    var sanitizedMessage = result.data.text;
+    console.log(sanitizedMessage)
   }).catch(err => {
     console.log(err)
   })
