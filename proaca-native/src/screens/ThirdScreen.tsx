@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   TextInput,
   Button,
   FlatList,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { sendMessage, db } from '../lib/firebase';
 import { UserContext } from '../contexts/userContexts';
@@ -52,17 +52,16 @@ const ThirdScreen = () => {
           keyExtractor={(item, index) => index.toString()}
         />
       </ScrollView>
-      <View style={styles.footer}>
+      <KeyboardAvoidingView style={styles.footer} behavior="padding">
         <TextInput
           onChangeText={setMessage}
           value={message}
-          style={styles.input}
           placeholder="message"
         />
         <View style={styles.button}>
           <Button title="send" color="#f194ff" onPress={_sendMessage} />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -71,7 +70,6 @@ export default ThirdScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexGrow: 1,
     display: 'flex',
   },
@@ -87,7 +85,6 @@ const styles = StyleSheet.create({
     padding: 3,
   },
   footer: {
-    flex: 0.1,
     display: 'flex',
     flexDirection: 'row',
   },

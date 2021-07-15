@@ -1,5 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import { saveUserInfo } from '../lib/firebase';
 import { UserContext } from '../contexts/userContexts';
 
@@ -22,19 +29,20 @@ const SubScreen = ({ navigation, route }: { navigation: any; route: any }) => {
       <Text>SubScreen</Text>
       <Button title="Go back" onPress={() => navigation.goBack()} />
       <Text>uid: {param.uid}</Text>
-      <TextInput
-        onChangeText={setUname}
-        value={uname}
-        style={styles.input}
-        placeholder="uname"
-      />
-      <TextInput
-        onChangeText={setAge}
-        value={age}
-        keyboardType="number-pad"
-        style={styles.input}
-        placeholder="age"
-      />
+      <TouchableOpacity style={{ width: '100%' }}>
+        <TextInput
+          onChangeText={setUname}
+          value={uname}
+          style={styles.input}
+          placeholder="uname"
+        />
+        <TextInput
+          onChangeText={setAge}
+          value={age}
+          style={styles.input}
+          placeholder="age"
+        />
+      </TouchableOpacity>
       <Button title="save user info" color="#f194ff" onPress={_onChangeText} />
       <Button
         title="Go to Third"

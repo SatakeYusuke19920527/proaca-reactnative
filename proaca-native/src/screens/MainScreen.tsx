@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { auth } from '../lib/firebase';
-import { functionOnCall } from '../lib/firebase';
 import firebase from 'firebase';
 
 const MainScreen = ({ navigation }: { navigation: any }) => {
@@ -15,7 +14,6 @@ const MainScreen = ({ navigation }: { navigation: any }) => {
         setUid(user.user!.uid);
       })
       .catch((error) => {
-        var errorMessage = error.message;
         console.log(error);
       });
     if (uid !== '') {
@@ -26,15 +24,20 @@ const MainScreen = ({ navigation }: { navigation: any }) => {
   };
   const _firebaseOnCall = async () => {
     console.log('start======');
-    var helloWorld = firebase.functions().httpsCallable('helloWorld');
+    const functions = firebase.app().functions('us-central1');
+    var helloWorld = await functions.httpsCallable('helloWorld');
     helloWorld({ text: 'messageText satake test' })
       .then((result) => {
         console.log('this is invoked', result);
-        console.log(result.data);
+        console.log(result);
       })
-      .catch((err) => {
-        console.log('err is invoked');
-        console.log(err);
+      .catch((error) => {
+        var code = error.code;
+        var message = error.message;
+        var details = error.details;
+        console.log('code : ', code);
+        console.log('message : ', message);
+        console.log('details : ', details);
       });
   };
   return (
